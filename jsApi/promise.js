@@ -1,4 +1,4 @@
-// 极简单版promise，没时间写复杂的
+// 极简单版promise，写不出复杂的
 /////////
 // https://segmentfault.com/a/1190000016550260
 
@@ -31,7 +31,7 @@ class myPromise {
         this.status = 'resolve'
         this.succVal = val
         console.log('--2')
-        // 1联动2
+        // --1联动--2
         // succList的结构 [ Function, Function, ... ]
         // 异步--1先执行，添加Function
         // 然后躺平
@@ -55,7 +55,7 @@ class myPromise {
   }
   then(resolve, reject) {
     // 如果是异步，会走到这里，当调用.then的时候添加回调
-    // 2联动1, --1
+    // --2联动--1, --1
     if (this.status === 'pendding') {
       console.log('--1')
       this.succList.push(() => {
