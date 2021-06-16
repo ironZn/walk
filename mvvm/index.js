@@ -301,6 +301,7 @@ var compileUtils = {
 
   },
   // v-model
+  // 双向绑定原理解析
   model(node, vm, exp) {
     this.bind(node, vm, exp, 'model')
     // 此时已经初始化，且被添加了watcher
