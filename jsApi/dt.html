@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body style="height: 10000px;">
+</body>
+<script>
+  // 防抖
+  // 在短时间内大量触发同一事件，只会执行一次函数
+  function debounce(fn, delay) {
+    let timer = null
+    // 闭包获取timer
+    return function() {
+      let ctx = this
+      let arg = arguments
+      if (timer) {
+        clearTimeout(timer)
+      }
+      timer = setTimeout(function() {
+        fn.apply(ctx, arg)
+      }, delay)
+    }
+  }
+  function scrollHand() {
+    const scrollTop = document.body.scrollTop || document.documentElement.scrollTop
+    console.log('防抖=》滚动条位置：' + scrollTop)
+  }
+
+  // 疯狂触发的函数
+  document.body.onmousemove = debounce(scrollHand, 1000)
+
+
+  // 节流
+  // 在短时间内大量触发同一事件，如果事件cd时间(冷却)好了才执行
+  function throttle(fn,delay){
+    let valid = true
+    return function() {
+      let ctx = this
+      let arg = arguments
+      // 如果在cd中，则不执行后面的
+      if(!valid){
+        return false 
+      }
+      // 执行到这里说明要进入cd了
+      valid = false
+      setTimeout(() => {
+        fn.apply(ctx, arg)
+        // cd冷却好了开启
+        valid = true
+      }, delay)
+    }
+  }
+  function showTop  () {
+    const scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+  　　console.log('节流=》滚动条位置：' + scrollTop);
+  }
+  // 首次执行
+  window.onscroll = throttle(showTop, 1000) 
+
+  // // 经典7行
+  // function d(fn, delay) {
+  //   let timer = null
+  //   return () => {
+  //     timer && clearTimeout(timer)
+  //     timer = setTimeout(fn, delay)
+  //   }
+  // }
+
+  // function t(fn, delay) {
+  //   let flag = true
+  //   return () => {
+  //     if (!flag) {
+  //       return
+  //     }
+  //     flag = false
+  //     setTimeout(() => {
+  //       fn()
+  //       flag = true
+  //     }, delay)
+  //   }
+  // }
+
+</script>
+</html>
