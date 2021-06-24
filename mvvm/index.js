@@ -59,6 +59,12 @@ function defineReactive(data, key, val) {
   // 深度检查
   observer(val)
   // 自定义属性
+  // 双向绑定原理
+  // 通过object.defineProperty给实现添加setter，getter进行属性监听
+  // 当属性发生变动，通知视图更新
+  // 视图怎么更新？
+  // 更新入口是dep.notify,在watcher里临时把this指向dep，从而在dep中操作watcher，实现update
+  // update回调新值给v-bind中的watcher，然后视图就更新了。
   Object.defineProperty(data, key, {
     configurable: false,
     enumerable: true,
@@ -296,6 +302,7 @@ var compileUtils = {
     // 何时回调？注意sub.update()的执行时机，在属性set方法中发生
     gid ++;
     new Watcher(vm, exp, (value, oldValue) => {
+      // 这里拿到新值执行更新
       updateFn && updateFn(node, value, oldValue)
     })
 
